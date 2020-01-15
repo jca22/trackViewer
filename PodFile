@@ -1,0 +1,6 @@
+target 'MediaViewer' do
+  use_frameworks!
+  pod 'Alamofire', '~> 4.9.1'
+  pod 'SwiftyJSON'
+  pod 'RealmSwift'	
+end
