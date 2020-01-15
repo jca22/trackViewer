@@ -33,6 +33,15 @@ class MediaDetailViewController: UIViewController {
         }
     }
 
+    // MARK: - Lifecycle methods
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+    }
+    
+    // MARK: - Functions
+    
     func configureView() {
         // Update description text
         if let content = content {
@@ -54,25 +63,29 @@ class MediaDetailViewController: UIViewController {
             }
             
             if let trackName = trackNameLabel {
+                trackName.adjustsFontSizeToFitWidth = true
+                trackName.minimumScaleFactor = 0.2
                 trackName.text = content.trackName
             }
             
             if let artistName = artistNameLabel {
+                artistName.adjustsFontSizeToFitWidth = true
+                artistName.minimumScaleFactor = 0.2
                 artistName.text = content.artist
             }
             
             if let albumYear = albumYearLabel {
+                albumYear.adjustsFontSizeToFitWidth = true
+                albumYear.minimumScaleFactor = 0.2
+                albumYear.numberOfLines = 0
                 albumYear.text = "\(content.album) (\(content.year))"
             }
             
             if let genre = genreLabel {
+                genre.adjustsFontSizeToFitWidth = true
+                genre.minimumScaleFactor = 0.2
                 genre.text = content.genre
             }
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureView()
     }
 }
