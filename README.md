@@ -3,7 +3,9 @@ A simple application utilising Apple's iTunes search API to view media
 
 Dependencies:
   Alamofire - Used for handling API requests
+  
   SwiftyJSON - Handles easy parsing of JSON data
+  
   RealmSwift - A convenient way of doing data persistence
   
 Architecture:
@@ -15,3 +17,5 @@ Architecture:
  
 Persistence:
   This application makes use of RealmSwift for data persistence. Aside from the obvious convenience and easier way of writing the code, RealmSwift also is relatively faster compared to CoreData in my experience.
+  
+NOTE: Please install git-lfs prior to cloning as one of the dependecies contain some large files. See more information here: https://git-lfs.github.com/
