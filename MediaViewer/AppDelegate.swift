@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Try to get last session
         ActiveSession.currentSession.getLastSession()
         
+        // Try to get all content saved
+        ActiveSession.currentSession.getAllContent()
+        
         return true
     }
 

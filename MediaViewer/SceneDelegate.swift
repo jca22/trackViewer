@@ -9,9 +9,7 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, UISplitViewControllerDelegate {
-
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -58,12 +56,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UISplitViewControllerDe
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
         guard let topAsDetailController = secondaryAsNavController.topViewController as? MediaDetailViewController else { return false }
-        if topAsDetailController.content == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
+        
+        // Show detail view if we have a current viewed track that was persisted before. Show master view if no currently tracked view.
+        // Try to probe if trackId is not zero and if data exist, set detail view controllers content object to
+        // the persisted last content value.
+        if let session = ActiveSession.currentSession.session {
+            if session.trackID == 0 {
+                return true
+            }
+            
+            if ActiveSession.currentSession.contentList[session.trackID] == nil {
+                return true
+            }
+        
+            if let content = ActiveSession.currentSession.contentList[session.trackID] {
+                topAsDetailController.content = content
+            }
         }
+        
         return false
     }
-
 }
 

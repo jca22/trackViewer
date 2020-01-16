@@ -21,7 +21,6 @@
 		F782404F23CC5BF800CEAF4C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782404E23CC5BF800CEAF4C /* Content.swift */; };
 		F782405123CC6CF600CEAF4C /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782405023CC6CF600CEAF4C /* Session.swift */; };
 		F782405323CC96E500CEAF4C /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782405223CC96E500CEAF4C /* MediaCell.swift */; };
-		F782405523CCB16F00CEAF4C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782405423CCB16F00CEAF4C /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +63,6 @@
 		F782404E23CC5BF800CEAF4C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		F782405023CC6CF600CEAF4C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F782405223CC96E500CEAF4C /* MediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
-		F782405423CCB16F00CEAF4C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +108,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F751C16423D01F8B007B4181 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F782405223CC96E500CEAF4C /* MediaCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F782400D23CC4D9900CEAF4C = {
 			isa = PBXGroup;
 			children = (
@@ -135,13 +141,12 @@
 		F782401823CC4D9900CEAF4C /* MediaViewer */ = {
 			isa = PBXGroup;
 			children = (
+				F751C16423D01F8B007B4181 /* View */,
 				F782404D23CC59E200CEAF4C /* Data */,
 				F782401923CC4D9900CEAF4C /* AppDelegate.swift */,
 				F782401B23CC4D9900CEAF4C /* SceneDelegate.swift */,
-				F782405423CCB16F00CEAF4C /* SplashViewController.swift */,
 				F782401D23CC4D9900CEAF4C /* MasterViewController.swift */,
 				F782404B23CC54D800CEAF4C /* MediaDetailViewController.swift */,
-				F782405223CC96E500CEAF4C /* MediaCell.swift */,
 				F782402123CC4D9900CEAF4C /* Main.storyboard */,
 				F782402423CC4D9D00CEAF4C /* Assets.xcassets */,
 				F782402623CC4D9D00CEAF4C /* LaunchScreen.storyboard */,
@@ -361,7 +366,6 @@
 				F782401A23CC4D9900CEAF4C /* AppDelegate.swift in Sources */,
 				F782401C23CC4D9900CEAF4C /* SceneDelegate.swift in Sources */,
 				F782401E23CC4D9900CEAF4C /* MasterViewController.swift in Sources */,
-				F782405523CCB16F00CEAF4C /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

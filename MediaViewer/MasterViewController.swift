@@ -7,16 +7,19 @@
 //
 
 /*
-    MasterViewController 
+    MasterViewController is responsible for generating the table list of all media downloaded after search
+    from the API request. This class also triggers the API request download on view load as well as
+    handling the transition after a row is tapped.
  */
 
 import UIKit
 import Alamofire
 import SwiftyJSON
+import RealmSwift
 
 class MasterViewController: UITableViewController {
+    // MARK: - Properties
 
-    
     var detailViewController: MediaDetailViewController? = nil
     var contentList = [Content]()
     var lastAccess: Date?
@@ -33,12 +36,15 @@ class MasterViewController: UITableViewController {
         
         lastAccess = ActiveSession.currentSession.lastAccess
                 
-        loadData()
+        fetchData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        
+        // Reset trackid in ActiveSession which indicates that there is no currently viewed track
+        ActiveSession.currentSession.updateTrackID(0)
     }
 
     // MARK: - Segues
@@ -136,14 +142,16 @@ class MasterViewController: UITableViewController {
 
     // MARK: - Some useful methods
     
-    func loadData() {
+    func fetchData() {
         /*
             Retrieves json data from itunes API, parses result and
             creates individual Content objects from each track/movie.
             Appends all Content objects to the contentList array and
-            reloads table view when done.
+            reloads table view when done. Each content is also persisted here.
          */
         
+        // Can be useful to have a way to represent or generate the URL with the UI (A textfield for search term maybe...)
+        // Keeping this static
         let url = "https://itunes.apple.com/search?term=star&amp;country=au&amp;media=movie&amp;all"
         
         Alamofire.request(url, method: .get).responseData { response in
@@ -201,6 +209,8 @@ class MasterViewController: UITableViewController {
                                     }
                                     
                                     self.contentList.append(track)
+                                    // Also persist data
+                                    ActiveSession.currentSession.saveContent(content: track)
                                 }
                             }
                             

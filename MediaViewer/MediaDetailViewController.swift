@@ -18,7 +18,6 @@ import UIKit
 import RealmSwift
 
 class MediaDetailViewController: UIViewController {
-
     // MARK: - Properties
     
     @IBOutlet weak var artwork: UIImageView!
@@ -34,20 +33,7 @@ class MediaDetailViewController: UIViewController {
             
             // Save current session
             if let content = content {
-                if let session = ActiveSession.currentSession.session {
-                    
-                    do {
-                        let realm = try Realm()
-                        try realm.write {
-                            session.trackID = content.trackID
-                        }
-                    } catch let error as NSError {
-                        // TODO
-                        print(error.localizedDescription)
-                    }
-                    
-                    ActiveSession.currentSession.saveSession()
-                }
+                ActiveSession.currentSession.updateTrackID(content.trackID)
             }
         }
     }
@@ -59,7 +45,7 @@ class MediaDetailViewController: UIViewController {
         configureView()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func configureView() {
         // Update description text

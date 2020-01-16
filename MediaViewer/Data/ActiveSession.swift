@@ -6,14 +6,24 @@
 //  Copyright © 2020 Jan Carlo Aterrado. All rights reserved.
 //
 
+/*
+    This helper class is implemented as a singleton. This class is responsible for
+    CRUD operations using Realm as well giving easy access to useful data retrieved
+    during data fetching.
+ */
+
 import Foundation
 import RealmSwift
 
 class ActiveSession: NSObject {
+    // MARK: - Properties
+    
     static let currentSession: ActiveSession = ActiveSession()
     var session: Session?
     var lastAccess: Date?
+    var contentList: [Int:Content?] = [Int:Content?]()
     
+    // MARK: - Methods
     func getLastSession() {
         do {
             let realm = try Realm()
@@ -39,6 +49,37 @@ class ActiveSession: NSObject {
         }
     }
     
+    func getAllContent() {
+        do {
+            let realm = try Realm()
+            let content = realm.objects(Content.self)
+            if content.count > 0 {
+                for aContent in content {
+                    contentList[aContent.trackID] = aContent
+                }
+            }
+        } catch let error as NSError {
+            // TODO
+            print(error.localizedDescription)
+        }
+    }
+    
+    func updateTrackID(_ trackID: Int) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                if let session = session {
+                    session.trackID = trackID
+                }
+            }
+        } catch let error as NSError {
+            // TODO
+            print(error.localizedDescription)
+        }
+        
+        saveSession()
+    }
+    
     func saveSession() {
         if let session = session {
             saveSession(session: session)
@@ -49,7 +90,19 @@ class ActiveSession: NSObject {
         do {
             let realm = try Realm()
             try realm.write {
-                realm.add(session)
+                realm.add(session, update: .modified)
+            }
+        } catch let error as NSError {
+            // TODO
+            print(error.localizedDescription)
+        }
+    }
+    
+    func saveContent(content: Content) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(content, update: .modified)
             }
         } catch let error as NSError {
             // TODO
