@@ -14,17 +14,13 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-protocol ContentDelegate {
-    func onContentSelected(_ content: Content)
-}
-
 class MasterViewController: UITableViewController {
 
+    
     var detailViewController: MediaDetailViewController? = nil
     var contentList = [Content]()
+    var lastAccess: Date?
     
-    var delegate: ContentDelegate?
-
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -35,6 +31,8 @@ class MasterViewController: UITableViewController {
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MediaDetailViewController
         }
         
+        lastAccess = ActiveSession.currentSession.lastAccess
+                
         loadData()
     }
 
@@ -72,7 +70,9 @@ class MasterViewController: UITableViewController {
         let header = UIView()
         header.backgroundColor = UIColor.init(red: 221/255, green: 221/255, blue: 221/255, alpha: 1.0)
         let title = UILabel.init(frame: CGRect.init(x: 20, y: 7, width: tableView.bounds.size.width, height: 30))
-        title.text = "Last Visited:"
+        if let lastAccess = lastAccess {
+            title.text = "Last Visited: \(lastAccess)"
+        }
         title.font = UIFont.systemFont(ofSize: 13)
         title.sizeToFit()
         header.addSubview(title)
@@ -160,11 +160,13 @@ class MasterViewController: UITableViewController {
                       
                         if let result = jsonData["results"].array {
                             for data in result {
-                                if let trackName = data["trackName"].string, let artwork = data["artworkUrl60"].string,
-                                    let price = data["trackPrice"].float, let currency = data["currency"].string,
-                                    let genre = data["primaryGenreName"].string  {
-                                    // Create a track object
+                                if let trackID = data["trackId"].int, let trackName = data["trackName"].string,
+                                    let artwork = data["artworkUrl60"].string, let price = data["trackPrice"].float,
+                                    let currency = data["currency"].string, let genre = data["primaryGenreName"].string  {
+                                    
+                                    // Create a content object and save appropriate properties
                                     let track = Content()
+                                    track.trackID = trackID
                                     track.trackName = trackName
                                     track.artWorkURL = artwork
                                     track.trackPrice = price

@@ -15,6 +15,7 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 class MediaDetailViewController: UIViewController {
 
@@ -30,6 +31,24 @@ class MediaDetailViewController: UIViewController {
     var content: Content? {
         didSet {
             configureView()
+            
+            // Save current session
+            if let content = content {
+                if let session = ActiveSession.currentSession.session {
+                    
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            session.trackID = content.trackID
+                        }
+                    } catch let error as NSError {
+                        // TODO
+                        print(error.localizedDescription)
+                    }
+                    
+                    ActiveSession.currentSession.saveSession()
+                }
+            }
         }
     }
 
